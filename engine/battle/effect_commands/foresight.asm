@@ -1,0 +1,24 @@
+BattleCommand_foresight:
+	ld a, [wAttackMissed]
+	and a
+	jr nz, .failed
+
+	call CheckHiddenOpponent
+	jr nz, .failed
+
+	ld a, BATTLE_VARS_SUBSTATUS1_OPP
+	call GetBattleVarAddr
+	bit SUBSTATUS_IDENTIFIED, [hl]
+	jr nz, .failed
+
+	set SUBSTATUS_IDENTIFIED, [hl]
+	
+	farcall CheckForesightThing
+	ld [wKickCounter], a
+	
+	call AnimateCurrentMove
+	ld hl, IdentifiedText
+	jp StdBattleTextBox
+
+.failed
+	jp FailForesight

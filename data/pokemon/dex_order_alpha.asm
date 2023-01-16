@@ -1,0 +1,2 @@
+AlphabeticalPokedexOrder:
+	db ABRA
